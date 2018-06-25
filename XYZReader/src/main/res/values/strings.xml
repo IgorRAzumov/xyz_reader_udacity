@@ -8,5 +8,11 @@
     <string name="action_share">Share</string>
 
     <string name="up">Up</string>
+    <string name="selected_article_key">selected-article-key</string>
+    <string name="error_start_intent_data">start activity intent must have article id data</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="error_activity_implement_fragment_callback">must implement OnFragmentInteractionListener</string>
 
 </resources>

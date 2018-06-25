@@ -5,20 +5,21 @@ import android.annotation.SuppressLint;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.xyzreader.model.entity.Article;
-import com.example.xyzreader.model.repo.ArticleRepo;
-import com.example.xyzreader.view.IArticleRowView;
-import com.example.xyzreader.view.IArticlesListActivityView;
+import com.example.xyzreader.model.repo.ArticlesRepo;
+import com.example.xyzreader.view.adapters.articlesListAdapter.IArticleRowView;
+import com.example.xyzreader.view.articlesListScreen.IArticlesListView;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.Scheduler;
+
 @InjectViewState
-public class ArticlesListActivityPresenter extends MvpPresenter<IArticlesListActivityView>
+public class ArticlesListActivityPresenter extends MvpPresenter<IArticlesListView>
         implements IArticlesListPresenter {
     @Inject
-    ArticleRepo articleRepo;
+    ArticlesRepo articlesRepo;
 
     private List<Article> articlesList;
     private Scheduler scheduler;
@@ -36,7 +37,7 @@ public class ArticlesListActivityPresenter extends MvpPresenter<IArticlesListAct
 
     @SuppressLint("CheckResult")
     private void loadArticles() {
-        articleRepo.getArticles()
+        articlesRepo.getArticles()
                 .observeOn(scheduler)
                 .subscribe(articles -> {
                     articlesList = articles;
@@ -53,11 +54,17 @@ public class ArticlesListActivityPresenter extends MvpPresenter<IArticlesListAct
             rowView.setArticleName(article.getTitle());
             rowView.setArticleAuthor(article.getAuthor());
             rowView.setImage(article.getThumb(), article.getAspectRatio());
+            rowView.setTag(pos);
         }
     }
 
     @Override
     public int getArticlesCount() {
         return articlesList == null ? 0 : articlesList.size();
+    }
+
+    @Override
+    public void onArticleClick(int position) {
+        getViewState().startDetailScreen(position);
     }
 }

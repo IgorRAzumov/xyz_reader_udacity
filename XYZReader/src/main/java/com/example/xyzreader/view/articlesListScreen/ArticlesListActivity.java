@@ -1,21 +1,23 @@
-package com.example.xyzreader.view;
+package com.example.xyzreader.view.articlesListScreen;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.example.xyzreader.App;
 import com.example.xyzreader.R;
-import com.example.xyzreader.model.entity.Article;
 import com.example.xyzreader.model.image.IImageLoader;
 import com.example.xyzreader.presenter.ArticlesListActivityPresenter;
-
-import java.util.List;
+import com.example.xyzreader.view.adapters.articlesListAdapter.ArticlesListAdapter;
+import com.example.xyzreader.view.articleDetailScreen.ArticleDetailActivity;
 
 import javax.inject.Inject;
 
@@ -24,9 +26,11 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class ArticlesListActivity extends MvpAppCompatActivity
-        implements IArticlesListActivityView {
+        implements IArticlesListView {
     @BindView(R.id.rv_act_articles_list_articles)
     RecyclerView articlesRecycler;
+    @BindView(R.id.pb_act_articles_list_progress)
+    ProgressBar progressBar;
 
     @InjectPresenter
     ArticlesListActivityPresenter presenter;
@@ -34,12 +38,12 @@ public class ArticlesListActivity extends MvpAppCompatActivity
     @Inject
     IImageLoader<ImageView> imageLoader;
 
-    private ArticlesAdapter articlesAdapter;
+    private ArticlesListAdapter articlesListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_articles_list);
+        setContentView(R.layout.activity_article_list);
         ButterKnife.bind(this);
 
         articlesRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -59,19 +63,27 @@ public class ArticlesListActivity extends MvpAppCompatActivity
 
     @Override
     public void init() {
-        articlesAdapter = new ArticlesAdapter(presenter, imageLoader);
-        articlesRecycler.setAdapter(articlesAdapter);
+        articlesListAdapter = new ArticlesListAdapter(presenter, imageLoader);
+        articlesRecycler.setAdapter(articlesListAdapter);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void loadCompeted() {
-        articlesAdapter.notifyDataSetChanged();
+        progressBar.setVisibility(View.INVISIBLE);
+        articlesListAdapter.notifyDataSetChanged();
+
     }
 
     @Override
     public void showErrorLoadMessage() {
-
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
-
+    @Override
+    public void startDetailScreen(int position) {
+        Intent intent = new Intent(this, ArticleDetailActivity.class);
+        intent.putExtra(getString(R.string.selected_article_key), position);
+        startActivity(intent);
+    }
 }

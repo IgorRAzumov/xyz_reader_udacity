@@ -1,4 +1,4 @@
-package com.example.xyzreader.view;
+package com.example.xyzreader.view.adapters.articlesListAdapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -11,18 +11,17 @@ import android.widget.TextView;
 import com.example.xyzreader.R;
 import com.example.xyzreader.model.image.IImageLoader;
 import com.example.xyzreader.presenter.IArticlesListPresenter;
-import com.example.xyzreader.ui.customViews.DynamicHeightNetworkImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ArticleViewHolder> {
+public class ArticlesListAdapter extends RecyclerView.Adapter<ArticlesListAdapter.ArticleViewHolder> {
     private IArticlesListPresenter presenter;
     private IImageLoader<ImageView> imageLoader;
-
-    public ArticlesAdapter(IArticlesListPresenter presenter, IImageLoader<ImageView> imageLoader) {
+    public ArticlesListAdapter(IArticlesListPresenter presenter, IImageLoader<ImageView> imageLoader) {
         this.presenter = presenter;
         this.imageLoader = imageLoader;
+
     }
 
     @NonNull
@@ -31,11 +30,13 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         View view = LayoutInflater
                 .from(parent.getContext())
                 .inflate(R.layout.articles_list_item, parent, false);
+        view.setOnClickListener(createItemOnClickListener());
         return new ArticleViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
+        holder.itemView.setTag(position);
         presenter.bindArticleListRow(position, holder);
     }
 
@@ -44,13 +45,20 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
         return presenter.getArticlesCount();
     }
 
+    private View.OnClickListener createItemOnClickListener(){
+        return view -> {
+            presenter.onArticleClick((int) view.getTag());
+        };
+    }
+
     class ArticleViewHolder extends RecyclerView.ViewHolder implements IArticleRowView {
         @BindView(R.id.tv_articles_list_item_title)
         TextView articleName;
         @BindView(R.id.tv_articles_list_item_author)
         TextView articleAuthor;
         @BindView(R.id.dhiv_articles_list_item_thumbnail)
-        DynamicHeightNetworkImageView articleImage;
+        ImageView articleImage;
+        /*DynamicHeightNetworkImageView articleImage;*/
 
         ArticleViewHolder(View itemView) {
             super(itemView);
@@ -69,8 +77,13 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.Articl
 
         @Override
         public void setImage(String thumbUrl, float aspectRatio) {
-            articleImage.setAspectRatio(aspectRatio);
+            /*articleImage.setAspectRatio(aspectRatio);*/
             imageLoader.loadInto(thumbUrl, articleImage);
+        }
+
+        @Override
+        public void setTag(int pos) {
+
         }
     }
 }

@@ -9,23 +9,26 @@ import java.util.List;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
-public class ArticleRepo {
+public class ArticlesRepo {
     private IApiService api;
     private ICache articlesCache;
 
-    public ArticleRepo(ICache cache, IApiService api) {
+    public ArticlesRepo(ICache cache, IApiService api) {
         this.api = api;
         articlesCache = cache;
     }
 
 
     public Single<List<Article>> getArticles() {
-        return api.getArticles()
-                .subscribeOn(Schedulers.io())
-                .map(articles -> {
-                    articlesCache.updateArticlesCache(articles);
-                    return articles;
-                });
-
+        if (articlesCache.isEmpty()) {
+            return api.getArticles()
+                    .subscribeOn(Schedulers.io())
+                    .map(articles -> {
+                        articlesCache.updateArticlesCache(articles);
+                        return articles;
+                    });
+        }else{
+            return articlesCache.getCache();
+        }
     }
 }

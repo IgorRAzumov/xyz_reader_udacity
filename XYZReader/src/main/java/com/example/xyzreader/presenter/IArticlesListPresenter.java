@@ -1,11 +1,12 @@
 package com.example.xyzreader.presenter;
 
-import com.example.xyzreader.view.IArticleRowView;
-import com.example.xyzreader.view.IArticlesListActivityView;
+import com.example.xyzreader.view.adapters.articlesListAdapter.IArticleRowView;
 
 public interface IArticlesListPresenter {
 
-    void bindArticleListRow(int pos, IArticleRowView rowView);
+    void bindArticleListRow(int position, IArticleRowView rowView);
 
     int getArticlesCount();
+
+    void onArticleClick(int position);
 }
