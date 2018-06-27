@@ -1,38 +1,41 @@
 package com.example.xyzreader.presenter;
 
+import android.annotation.SuppressLint;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.example.xyzreader.model.entity.Article;
 import com.example.xyzreader.model.repo.ArticlesRepo;
 import com.example.xyzreader.view.adapters.articlesPagerAdapter.IArticlePageView;
 import com.example.xyzreader.view.articleDetailScreen.IArticleDetailView;
+import com.example.xyzreader.view.fragments.articleDetailFragment.ArticleDetailFragment;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import io.reactivex.Scheduler;
+import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class ArticleDetailActivityPresenter extends MvpPresenter<IArticleDetailView>
-        implements IArticlePagePresenter {
+        implements IArticlePagePresenter{
     @Inject
     ArticlesRepo articlesRepo;
 
-    private int selectedArticleId;
     private List<Article> articlesList;
     private Scheduler scheduler;
 
 
-    public ArticleDetailActivityPresenter(Scheduler scheduler, int selectedArticleId) {
+    public ArticleDetailActivityPresenter(Scheduler scheduler) {
         this.scheduler = scheduler;
-        this.selectedArticleId = selectedArticleId;
     }
 
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         getViewState().init();
+        loadData();
     }
 
     @Override
@@ -51,7 +54,18 @@ public class ArticleDetailActivityPresenter extends MvpPresenter<IArticleDetailV
         return articlesList == null ? 0 : articlesList.size();
     }
 
+    @SuppressLint("CheckResult")
+    private void loadData() {
+        articlesRepo.getArticles()
+                .subscribeOn(Schedulers.io())
+                .observeOn(scheduler)
+                .subscribe(articles -> {
+                    articlesList = articles;
+                    getViewState().onLoadCompleted();
+                }, throwable -> {
+                    getViewState().showErrorLoadDataMessage();
+                });
+    }
 
 
-    
 }

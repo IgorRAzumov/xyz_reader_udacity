@@ -14,6 +14,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Scheduler;
+import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class ArticlesListActivityPresenter extends MvpPresenter<IArticlesListView>
@@ -39,9 +40,10 @@ public class ArticlesListActivityPresenter extends MvpPresenter<IArticlesListVie
     private void loadArticles() {
         articlesRepo.getArticles()
                 .observeOn(scheduler)
+                .subscribeOn(Schedulers.io())
                 .subscribe(articles -> {
                     articlesList = articles;
-                    getViewState().loadCompeted();
+                    getViewState().onLoadCompeted();
                 }, throwable -> {
                     getViewState().showErrorLoadMessage();
                 });

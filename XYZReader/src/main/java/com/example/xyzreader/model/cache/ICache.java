@@ -4,12 +4,17 @@ import com.example.xyzreader.model.entity.Article;
 
 import java.util.List;
 
+
+import io.reactivex.Completable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 
 public interface ICache {
-    void updateArticlesCache(List<Article> articles);
+    Single<List<Article>> getArticlesCache();
 
-    Single<List<Article>> getCache();
+    Completable updateArticlesCache(List<Article> articles);
+
+    Single<List<Article>> getArticles();
 
     boolean isEmpty();
 }

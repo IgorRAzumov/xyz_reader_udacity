@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 public class ArticlesListAdapter extends RecyclerView.Adapter<ArticlesListAdapter.ArticleViewHolder> {
     private IArticlesListPresenter presenter;
     private IImageLoader<ImageView> imageLoader;
+
     public ArticlesListAdapter(IArticlesListPresenter presenter, IImageLoader<ImageView> imageLoader) {
         this.presenter = presenter;
         this.imageLoader = imageLoader;
@@ -76,7 +77,7 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<ArticlesListAdapte
         }
 
         @Override
-        public void setImage(String thumbUrl, float aspectRatio) {
+        public void setImage(String thumbUrl, double aspectRatio) {
             /*articleImage.setAspectRatio(aspectRatio);*/
             imageLoader.loadInto(thumbUrl, articleImage);
         }

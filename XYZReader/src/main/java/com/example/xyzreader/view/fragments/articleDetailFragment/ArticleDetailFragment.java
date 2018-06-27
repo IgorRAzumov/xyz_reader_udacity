@@ -18,6 +18,8 @@ public class ArticleDetailFragment extends MvpAppCompatFragment implements IArti
     private OnFragmentInteractionListener mListener;
     private Unbinder unbinder;
 
+    String title;
+
     public ArticleDetailFragment() {
     }
 
@@ -71,7 +73,7 @@ public class ArticleDetailFragment extends MvpAppCompatFragment implements IArti
 
     @Override
     public void setTitle(String title) {
-
+        this.title = title;
     }
 
     @Override
@@ -90,7 +92,5 @@ public class ArticleDetailFragment extends MvpAppCompatFragment implements IArti
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }

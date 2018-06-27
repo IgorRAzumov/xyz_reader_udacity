@@ -40,6 +40,18 @@ public class ArticlesListActivity extends MvpAppCompatActivity
 
     private ArticlesListAdapter articlesListAdapter;
 
+    @ProvidePresenter
+    public ArticlesListActivityPresenter createPresenter() {
+
+        ArticlesListActivityPresenter presenter = new ArticlesListActivityPresenter(
+                AndroidSchedulers.mainThread());
+
+        App application = (App) getApplication();
+        application.getAppComponent().inject(presenter);
+
+        return presenter;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,13 +65,6 @@ public class ArticlesListActivity extends MvpAppCompatActivity
         App.getInstance().getAppComponent().inject(this);
     }
 
-    @ProvidePresenter
-    public ArticlesListActivityPresenter createPresenter() {
-        ArticlesListActivityPresenter presenter = new ArticlesListActivityPresenter(
-                AndroidSchedulers.mainThread());
-        App.getInstance().getAppComponent().inject(presenter);
-        return presenter;
-    }
 
     @Override
     public void init() {
@@ -69,7 +74,7 @@ public class ArticlesListActivity extends MvpAppCompatActivity
     }
 
     @Override
-    public void loadCompeted() {
+    public void onLoadCompeted() {
         progressBar.setVisibility(View.INVISIBLE);
         articlesListAdapter.notifyDataSetChanged();
 

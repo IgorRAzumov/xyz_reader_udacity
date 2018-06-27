@@ -11,8 +11,9 @@ import com.example.xyzreader.view.fragments.articleDetailFragment.ArticleDetailF
 public class ArticlesViewPagerAdapter extends FragmentStatePagerAdapter {
     private IArticlePagePresenter presenter;
 
-    public ArticlesViewPagerAdapter(FragmentManager fm) {
+    public ArticlesViewPagerAdapter(FragmentManager fm, IArticlePagePresenter presenter) {
         super(fm);
+        this.presenter = presenter;
     }
 
     @Override
@@ -24,6 +25,6 @@ public class ArticlesViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-       return presenter.getArticlesCount();
+        return presenter.getArticlesCount();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.xyzreader.model.repo;
 
+import com.example.xyzreader.NetworkStatus;
 import com.example.xyzreader.model.api.IApiService;
 import com.example.xyzreader.model.cache.ICache;
 import com.example.xyzreader.model.entity.Article;
@@ -20,15 +21,18 @@ public class ArticlesRepo {
 
 
     public Single<List<Article>> getArticles() {
-        if (articlesCache.isEmpty()) {
+        if (!articlesCache.isEmpty()) {
+            return articlesCache.getArticlesCache();
+        } else if (NetworkStatus.isOnline()) {
             return api.getArticles()
-                    .subscribeOn(Schedulers.io())
                     .map(articles -> {
-                        articlesCache.updateArticlesCache(articles);
+                        articlesCache.updateArticlesCache(articles)
+                                .subscribeOn(Schedulers.io())
+                                .subscribe();
                         return articles;
                     });
-        }else{
-            return articlesCache.getCache();
+        } else {
+            return articlesCache.getArticles();
         }
     }
 }

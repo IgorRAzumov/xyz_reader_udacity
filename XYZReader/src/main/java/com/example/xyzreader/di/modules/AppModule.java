@@ -2,6 +2,8 @@ package com.example.xyzreader.di.modules;
 
 import com.example.xyzreader.App;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -13,6 +15,7 @@ public class AppModule {
         this.app = app;
     }
 
+    @Singleton
     @Provides
     public App app() {
         return app;

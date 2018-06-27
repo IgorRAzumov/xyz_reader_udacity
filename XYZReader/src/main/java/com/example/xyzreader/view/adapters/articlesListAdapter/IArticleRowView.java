@@ -5,7 +5,7 @@ public interface IArticleRowView {
 
     void setArticleAuthor(String date);
 
-    void setImage(String thumbUrl, float aspectRatio);
+    void setImage(String thumbUrl, double aspectRatio);
 
     void setTag(int pos);
 }

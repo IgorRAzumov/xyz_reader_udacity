@@ -8,7 +8,7 @@
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="168dp"
-        android:background="?colorPrimary">
+        android:background="@android:color/transparent">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar_layout"
@@ -22,8 +22,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/act_article_detail_"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:background="@android:color/holo_red_dark"
+                android:layout_height="56dp"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:layout_collapseMode="pin" />
 
@@ -41,5 +40,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <ProgressBar
+        android:id="@+id/pb_act_article_detail_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
 </android.support.design.widget.CoordinatorLayout>
