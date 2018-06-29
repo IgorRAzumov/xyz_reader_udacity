@@ -8,6 +8,7 @@ import com.example.xyzreader.presenter.ArticleDetailActivityPresenter;
 import com.example.xyzreader.presenter.ArticlesListActivityPresenter;
 import com.example.xyzreader.view.articleDetailScreen.ArticleDetailActivity;
 import com.example.xyzreader.view.articlesListScreen.ArticlesListActivity;
+import com.example.xyzreader.view.fragments.articleDetailFragment.ArticleDetailFragment;
 
 import javax.inject.Singleton;
 
@@ -25,4 +26,6 @@ public interface AppComponent {
     void inject(ArticleDetailActivityPresenter presenter);
 
     void inject(ArticleDetailActivity articleDetailActivity);
+
+    void inject(ArticleDetailFragment articleDetailFragment);
 }

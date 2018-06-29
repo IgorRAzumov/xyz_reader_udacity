@@ -1,6 +1,7 @@
 package com.example.xyzreader.view.articlesListScreen;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class ArticlesListActivity extends MvpAppCompatActivity
@@ -36,19 +38,15 @@ public class ArticlesListActivity extends MvpAppCompatActivity
     ArticlesListActivityPresenter presenter;
 
     @Inject
-    IImageLoader<ImageView> imageLoader;
+    IImageLoader<ImageView,Maybe<Bitmap>> imageLoader;
 
     private ArticlesListAdapter articlesListAdapter;
 
     @ProvidePresenter
     public ArticlesListActivityPresenter createPresenter() {
-
         ArticlesListActivityPresenter presenter = new ArticlesListActivityPresenter(
                 AndroidSchedulers.mainThread());
-
-        App application = (App) getApplication();
-        application.getAppComponent().inject(presenter);
-
+        App.getInstance().getAppComponent().inject(presenter);
         return presenter;
     }
 
@@ -57,27 +55,20 @@ public class ArticlesListActivity extends MvpAppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article_list);
         ButterKnife.bind(this);
-
-        articlesRecycler.setLayoutManager(new LinearLayoutManager(this));
-        articlesRecycler.addItemDecoration(new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL));
-
         App.getInstance().getAppComponent().inject(this);
     }
 
 
     @Override
     public void init() {
-        articlesListAdapter = new ArticlesListAdapter(presenter, imageLoader);
-        articlesRecycler.setAdapter(articlesListAdapter);
         progressBar.setVisibility(View.VISIBLE);
+        initArticlesRecycler();
     }
 
     @Override
     public void onLoadCompeted() {
         progressBar.setVisibility(View.INVISIBLE);
         articlesListAdapter.notifyDataSetChanged();
-
     }
 
     @Override
@@ -90,5 +81,13 @@ public class ArticlesListActivity extends MvpAppCompatActivity
         Intent intent = new Intent(this, ArticleDetailActivity.class);
         intent.putExtra(getString(R.string.selected_article_key), position);
         startActivity(intent);
+    }
+
+    private void initArticlesRecycler() {
+        articlesListAdapter = new ArticlesListAdapter(presenter, imageLoader);
+        articlesRecycler.setLayoutManager(new LinearLayoutManager(this));
+        articlesRecycler.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL));
+        articlesRecycler.setAdapter(articlesListAdapter);
     }
 }

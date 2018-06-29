@@ -3,7 +3,10 @@ package com.example.xyzreader.view.articleDetailScreen;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -19,15 +22,16 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class ArticleDetailActivity extends MvpAppCompatActivity implements IArticleDetailView,
-        ArticleDetailFragment.OnFragmentInteractionListener  {
+        ArticleDetailFragment.OnFragmentInteractionListener {
     @BindView(R.id.vp_act_article_detail_content)
     ViewPager articlesViewPager;
-
-    private int selectedPosition;
+    @BindView(R.id.pb_act_article_detail_progress)
+    ProgressBar progressBar;
 
     @InjectPresenter
     ArticleDetailActivityPresenter presenter;
 
+    private int selectedPosition;
     private ArticlesViewPagerAdapter articleViewPagerAdapter;
 
     @ProvidePresenter
@@ -56,13 +60,19 @@ public class ArticleDetailActivity extends MvpAppCompatActivity implements IArti
         }
     }
 
+
     @Override
     public void init() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onLoadCompleted() {
+        initViewPager();
+        progressBar.setVisibility(View.GONE);
+    }
+
+    private void initViewPager() {
         articleViewPagerAdapter = new ArticlesViewPagerAdapter(getSupportFragmentManager(), presenter);
         articlesViewPager.setAdapter(articleViewPagerAdapter);
         articlesViewPager.addOnPageChangeListener(createViewPagerListener());
@@ -84,7 +94,7 @@ public class ArticleDetailActivity extends MvpAppCompatActivity implements IArti
 
             @Override
             public void onPageSelected(int position) {
-                System.out.println("------------------------------" + position);
+
             }
 
             @Override
@@ -92,5 +102,17 @@ public class ArticleDetailActivity extends MvpAppCompatActivity implements IArti
 
             }
         };
+    }
+
+    @Override
+    public void shareArticle(String articleBody) {
+        Intent shareArticleIntent = new Intent();
+        shareArticleIntent.setAction(Intent.ACTION_SEND);
+        shareArticleIntent.putExtra(Intent.EXTRA_TEXT, articleBody);
+        shareArticleIntent.setType(getString(R.string.intent_type_text_plain));
+
+        if (shareArticleIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(shareArticleIntent);
+        }
     }
 }

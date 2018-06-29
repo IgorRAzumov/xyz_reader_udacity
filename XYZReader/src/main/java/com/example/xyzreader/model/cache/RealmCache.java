@@ -61,9 +61,7 @@ public class RealmCache implements ICache {
     }
 
     private void updateInnerCash(List<Article> articles) {
-        synchronized (cashArticles) {
-            cashArticles.clear();
-            cashArticles.addAll(articles);
-        }
+        cashArticles.clear();
+        cashArticles.addAll(articles);
     }
 }

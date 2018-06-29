@@ -7,5 +7,4 @@ public interface IArticleRowView {
 
     void setImage(String thumbUrl, double aspectRatio);
 
-    void setTag(int pos);
 }

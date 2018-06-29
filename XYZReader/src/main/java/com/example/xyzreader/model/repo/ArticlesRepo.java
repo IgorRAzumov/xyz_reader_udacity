@@ -5,7 +5,10 @@ import com.example.xyzreader.model.api.IApiService;
 import com.example.xyzreader.model.cache.ICache;
 import com.example.xyzreader.model.entity.Article;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
@@ -26,6 +29,10 @@ public class ArticlesRepo {
         } else if (NetworkStatus.isOnline()) {
             return api.getArticles()
                     .map(articles -> {
+                        for (Article article : articles) {
+                            String publisherDate = article.getPublishedDate();
+                         //   article.setPublishedDate(formatDate(publisherDate));
+                        }
                         articlesCache.updateArticlesCache(articles)
                                 .subscribeOn(Schedulers.io())
                                 .subscribe();
@@ -35,4 +42,15 @@ public class ArticlesRepo {
             return articlesCache.getArticles();
         }
     }
+
+  /*  private String formatDate(String publisherDate) {
+        Date pubDate =
+
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return simpleDateFormat.format()
+
+
+
+    }*/
 }

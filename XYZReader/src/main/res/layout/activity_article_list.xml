@@ -20,17 +20,11 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:contentDescription="@string/app_name"
-                android:scaleType="centerInside"
-                android:src="@drawable/logo" />
+                android:src="@drawable/logo"
+                android:layout_gravity="bottom"/>
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/tb_act_articles_list_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:background="@android:color/transparent"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed" />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -47,3 +41,11 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 </android.support.design.widget.CoordinatorLayout>
+
+<!--
+
+<android.support.v7.widget.Toolbar
+android:id="@+id/tb_act_articles_list_toolbar"
+android:layout_width="match_parent"
+android:layout_height="?actionBarSize"
+app:layout_scrollFlags="scroll|exitUntilCollapsed" />-->

@@ -1,5 +1,6 @@
 package com.example.xyzreader.view.adapters.articlesListAdapter;
 
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,12 +15,14 @@ import com.example.xyzreader.presenter.IArticlesListPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Maybe;
 
 public class ArticlesListAdapter extends RecyclerView.Adapter<ArticlesListAdapter.ArticleViewHolder> {
     private IArticlesListPresenter presenter;
-    private IImageLoader<ImageView> imageLoader;
+    private IImageLoader<ImageView, Maybe<Bitmap>> imageLoader;
 
-    public ArticlesListAdapter(IArticlesListPresenter presenter, IImageLoader<ImageView> imageLoader) {
+    public ArticlesListAdapter(IArticlesListPresenter presenter,
+                               IImageLoader<ImageView, Maybe<Bitmap>> imageLoader) {
         this.presenter = presenter;
         this.imageLoader = imageLoader;
 
@@ -46,7 +49,7 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<ArticlesListAdapte
         return presenter.getArticlesCount();
     }
 
-    private View.OnClickListener createItemOnClickListener(){
+    private View.OnClickListener createItemOnClickListener() {
         return view -> {
             presenter.onArticleClick((int) view.getTag());
         };
@@ -59,7 +62,6 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<ArticlesListAdapte
         TextView articleAuthor;
         @BindView(R.id.dhiv_articles_list_item_thumbnail)
         ImageView articleImage;
-        /*DynamicHeightNetworkImageView articleImage;*/
 
         ArticleViewHolder(View itemView) {
             super(itemView);
@@ -80,11 +82,6 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<ArticlesListAdapte
         public void setImage(String thumbUrl, double aspectRatio) {
             /*articleImage.setAspectRatio(aspectRatio);*/
             imageLoader.loadInto(thumbUrl, articleImage);
-        }
-
-        @Override
-        public void setTag(int pos) {
-
         }
     }
 }

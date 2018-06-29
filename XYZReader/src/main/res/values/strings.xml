@@ -14,5 +14,15 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="error_activity_implement_fragment_callback">must implement OnFragmentInteractionListener</string>
+    <string name="article_title_key">article-title-key</string>
+    <string name="article_author_key">article-author-key</string>
+    <string name="article_publisher_date_key">article-publisher-date-key</string>
+    <string name="article_body_key">article-body-key</string>
+    <string name="error_fr_article_detail_call_set_data">before called onCreateView(...) must called setData(String title, String author, String publishedDate, String body)</string>
+    <string name="logo">logotip</string>
+    <string name="fr_article_detail_no_detected_color">-1</string><string name="fr_article_detail_body_text_rep">x</string><string name="fr_article_detail_body_regex">x</string>
+    <string name="new_string_regex">(\\r\\n|\\n)</string>
+    <string name="new_string_replacment"><![CDATA[<br />]]></string>
+    <string name="intent_type_text_plain">text/plain</string>
 
 </resources>

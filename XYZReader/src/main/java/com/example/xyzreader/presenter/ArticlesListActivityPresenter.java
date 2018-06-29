@@ -56,7 +56,6 @@ public class ArticlesListActivityPresenter extends MvpPresenter<IArticlesListVie
             rowView.setArticleName(article.getTitle());
             rowView.setArticleAuthor(article.getAuthor());
             rowView.setImage(article.getThumb(), article.getAspectRatio());
-            rowView.setTag(pos);
         }
     }
 

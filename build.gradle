@@ -21,11 +21,6 @@ allprojects {
         jcenter()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
-
-    ext {
-        androidSupportVersion = "27.1.0"
-
-    }
 }
 
 task clean(type: Delete) {

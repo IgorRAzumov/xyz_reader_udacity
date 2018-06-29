@@ -8,7 +8,6 @@ import com.example.xyzreader.model.entity.Article;
 import com.example.xyzreader.model.repo.ArticlesRepo;
 import com.example.xyzreader.view.adapters.articlesPagerAdapter.IArticlePageView;
 import com.example.xyzreader.view.articleDetailScreen.IArticleDetailView;
-import com.example.xyzreader.view.fragments.articleDetailFragment.ArticleDetailFragment;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class ArticleDetailActivityPresenter extends MvpPresenter<IArticleDetailView>
-        implements IArticlePagePresenter{
+        implements IArticlePagePresenter {
     @Inject
     ArticlesRepo articlesRepo;
 
@@ -34,7 +33,6 @@ public class ArticleDetailActivityPresenter extends MvpPresenter<IArticleDetailV
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-        getViewState().init();
         loadData();
     }
 
@@ -42,10 +40,8 @@ public class ArticleDetailActivityPresenter extends MvpPresenter<IArticleDetailV
     public void bindArticlePage(int pos, IArticlePageView pageView) {
         if (articlesList != null) {
             Article article = articlesList.get(pos);
-            pageView.setTitle(article.getTitle());
-            pageView.setAuthor(article.getAuthor());
-            pageView.setBody(article.getBody());
-            pageView.setpublisherDate(article.getPublishedDate());
+            pageView.setData(article.getTitle(), article.getAuthor(), article.getPublishedDate(),
+                    article.getBody(),article.getPhoto());
         }
     }
 
