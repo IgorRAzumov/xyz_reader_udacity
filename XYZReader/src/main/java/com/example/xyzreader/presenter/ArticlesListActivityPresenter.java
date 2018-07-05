@@ -36,19 +36,6 @@ public class ArticlesListActivityPresenter extends MvpPresenter<IArticlesListVie
         loadArticles();
     }
 
-    @SuppressLint("CheckResult")
-    private void loadArticles() {
-        articlesRepo.getArticles()
-                .observeOn(scheduler)
-                .subscribeOn(Schedulers.io())
-                .subscribe(articles -> {
-                    articlesList = articles;
-                    getViewState().onLoadCompeted();
-                }, throwable -> {
-                    getViewState().showErrorLoadMessage();
-                });
-    }
-
     @Override
     public void bindArticleListRow(int pos, IArticleRowView rowView) {
         if (articlesList != null) {
@@ -67,5 +54,26 @@ public class ArticlesListActivityPresenter extends MvpPresenter<IArticlesListVie
     @Override
     public void onArticleClick(int position) {
         getViewState().startDetailScreen(position);
+    }
+
+    public void retryLoad() {
+        loadArticles();
+    }
+
+    @SuppressLint("CheckResult")
+    private void loadArticles() {
+        articlesRepo.getArticles()
+                .observeOn(scheduler)
+                .subscribeOn(Schedulers.io())
+                .subscribe(articles -> {
+                    articlesList = articles;
+                    if (articles.size() == 0) {
+                        getViewState().showEmptyDataMessage();
+                    } else {
+                        getViewState().onLoadCompeted();
+                    }
+                }, throwable -> {
+                    getViewState().showErrorLoadMessage();
+                });
     }
 }

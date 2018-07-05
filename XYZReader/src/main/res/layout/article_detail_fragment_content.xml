@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nsv_fr_article_detail_cont_root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -14,13 +15,13 @@
             android:id="@+id/lly_fr_article_detail_cont_meta_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/ly_fr_article_detail_cont_meta_bar_vert_padding"
+            android:layout_marginBottom="@dimen/lly_fr_article_detail_cont_meta_bar_vert_padding"
             android:background="#333"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/ly_fr_article_detail_cont_meta_bar_vert_padding"
-            android:paddingLeft="@dimen/detail_inner_horiz_margin"
-            android:paddingRight="@dimen/detail_inner_horiz_margin"
-            android:paddingTop="@dimen/ly_fr_article_detail_cont_meta_bar_vert_padding">
+            android:paddingBottom="@dimen/lly_fr_article_detail_cont_meta_bar_vert_padding"
+            android:paddingLeft="@dimen/fr_article_detail_cont_horiz_margin"
+            android:paddingRight="@dimen/fr_article_detail_cont_horiz_margin"
+            android:paddingTop="@dimen/lly_fr_article_detail_cont_meta_bar_vert_padding">
 
 
             <TextView
@@ -29,8 +30,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
-                android:paddingBottom="@dimen/detail_metabar_title_bottom_padding"
-                android:textSize="@dimen/detail_title_text_size"
+                android:paddingBottom="@dimen/tv_fr_article_detail_cont_title_bottom_padding"
+                android:textSize="@dimen/tv_fr_article_detail_cont_title_text_size"
                 android:textStyle="bold" />
 
             <TextView
@@ -51,8 +52,8 @@
             style="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/detail_inner_horiz_margin"
-            android:layout_marginRight="@dimen/detail_inner_horiz_margin"
+            android:layout_marginLeft="@dimen/fr_article_detail_cont_horiz_margin"
+            android:layout_marginRight="@dimen/fr_article_detail_cont_horiz_margin"
             android:paddingBottom="@dimen/tv_fr_article_detail_cont_body_bottom_margin"
             android:lineSpacingMultiplier="@fraction/tv_fr_article_detail_cont_body_line_spacing_multiplier"
             android:textColorLink="@color/theme_accent"

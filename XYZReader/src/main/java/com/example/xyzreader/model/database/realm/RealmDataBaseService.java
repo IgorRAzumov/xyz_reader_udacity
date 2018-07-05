@@ -1,5 +1,6 @@
-package com.example.xyzreader.model.cache;
+package com.example.xyzreader.model.database.realm;
 
+import com.example.xyzreader.model.database.IDataBaseService;
 import com.example.xyzreader.model.entity.Article;
 
 import java.util.List;
@@ -9,22 +10,7 @@ import io.reactivex.Single;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class RealmCache implements ICache {
-    private final List<Article> cashArticles;
-
-    public RealmCache(List<Article> articles) {
-        cashArticles = articles;
-    }
-
-    @Override
-    public Single<List<Article>> getArticlesCache() {
-        return Single.just(cashArticles);
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return cashArticles == null || cashArticles.isEmpty();
-    }
+public class RealmDataBaseService implements IDataBaseService {
 
     @Override
     public Completable updateArticlesCache(List<Article> articles) {
@@ -40,7 +26,6 @@ public class RealmCache implements ICache {
                 realm.insertOrUpdate(articles);
             });
             realm.close();
-            updateInnerCash(articles);
         });
 
     }
@@ -53,15 +38,8 @@ public class RealmCache implements ICache {
                     realm
                             .where(Article.class)
                             .findAll());
-            if (!realmArticles.isEmpty()) {
-                updateInnerCash(realmArticles);
-            }
             emitter.onSuccess(realmArticles);
         });
     }
 
-    private void updateInnerCash(List<Article> articles) {
-        cashArticles.clear();
-        cashArticles.addAll(articles);
-    }
 }

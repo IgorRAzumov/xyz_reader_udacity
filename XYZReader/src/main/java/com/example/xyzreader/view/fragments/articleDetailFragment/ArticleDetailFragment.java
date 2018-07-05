@@ -5,6 +5,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -22,18 +27,18 @@ import com.example.xyzreader.R;
 import com.example.xyzreader.model.image.IImageLoader;
 import com.example.xyzreader.presenter.ArticleDetailFragmentPresenter;
 import com.example.xyzreader.view.adapters.articlesPagerAdapter.IArticlePageView;
+import com.example.xyzreader.view.articleDetailScreen.ArticleDetailActivity;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class ArticleDetailFragment extends MvpAppCompatFragment implements IArticlePageView,
-        IArticleDetailFragmentView {
+        IArticleDetailFragment {
     private static final String TAG = ArticleDetailFragment.class.getSimpleName();
     private static final String ARTICLE_TITLE_KEY = "article-title-key";
     private static final String ARTICLE_AUTHOR_KEY = "article-author-key";
@@ -55,6 +60,14 @@ public class ArticleDetailFragment extends MvpAppCompatFragment implements IArti
     ProgressBar progressBar;
     @BindView(R.id.lly_fr_article_detail_cont_meta_bar)
     LinearLayout metaBarLinear;
+    @BindView(R.id.fab_fr_article_detail_share_article)
+    FloatingActionButton shareButton;
+    @BindView(R.id.ctl_fr_article_detail_collapsing_tb_lly)
+    CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.tb_fr_article_detail_toolbar)
+    android.support.v7.widget.Toolbar toolbar;
+    @BindView(R.id.abl_fr_article_detail_app_bar)
+    AppBarLayout appBarLayout;
 
     @Inject
     IImageLoader<ImageView, Maybe<Bitmap>> imageLoader;
@@ -65,23 +78,11 @@ public class ArticleDetailFragment extends MvpAppCompatFragment implements IArti
     private OnFragmentInteractionListener onFragmentInteractionListener;
     private Unbinder unbinder;
 
-
     public ArticleDetailFragment() {
     }
 
     public static ArticleDetailFragment newInstance() {
         return new ArticleDetailFragment();
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            onFragmentInteractionListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + getString(R.string.error_activity_implement_fragment_callback));
-        }
     }
 
     @Override
@@ -100,6 +101,17 @@ public class ArticleDetailFragment extends MvpAppCompatFragment implements IArti
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            onFragmentInteractionListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + getString(R.string.error_activity_implement_fragment_callback));
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         App.getInstance().getAppComponent().inject(this);
@@ -113,10 +125,41 @@ public class ArticleDetailFragment extends MvpAppCompatFragment implements IArti
         return view;
     }
 
-    @SuppressLint("CheckResult")
     @Override
     public void init() {
         progressBar.setVisibility(View.VISIBLE);
+        loadArticleImage();
+    }
+
+    @Override
+    public void onLoadCompleted(int bodyTextColor, int titleTextColor, int rgb) {
+        progressBar.setVisibility(View.GONE);
+        initToolbar();
+        initAppBarLayout();
+        initShareButton();
+        setColors(bodyTextColor, titleTextColor, rgb);
+        showArticleInfo();
+    }
+
+    @Override
+    public void startShareAction(String articleInfo) {
+        onFragmentInteractionListener.shareArticle(articleInfo);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        onFragmentInteractionListener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @SuppressLint("CheckResult")
+    private void loadArticleImage() {
         final int noColor = getResources().getInteger(R.integer.fr_article_detail_no_detected_color);
         imageLoader.loadIntoWithResult(getArgumentsBundle().getString(ARTICLE_IMAGE_URL), articleImage)
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -138,6 +181,62 @@ public class ArticleDetailFragment extends MvpAppCompatFragment implements IArti
                 });
     }
 
+    private void initToolbar() {
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if (activity != null) {
+            activity.setSupportActionBar(toolbar);
+            ActionBar actionBar = activity.getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setTitle(getString(R.string.empty_string));
+            }
+        }
+    }
+
+    private void initAppBarLayout() {
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = false;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    collapsingToolbarLayout.setTitle(getArgumentsBundle().getString(ARTICLE_TITLE_KEY));
+                    isShow = true;
+                } else if (isShow) {
+                    collapsingToolbarLayout.setTitle(getString(R.string.empty_string));
+                    isShow = false;
+                }
+            }
+        });
+    }
+
+    private void initShareButton() {
+        shareButton.setOnClickListener(view ->{
+            ((ArticleDetailActivity)getActivity()).showErrorLoadDataMessage();
+                presenter.shareButtonClick(authorText.getText().toString(),
+                        titleText.getText().toString(), getString(R.string.share_pre_string));
+        });
+    }
+
+    private void setColors(int bodyTextColor, int titleTextColor, int rgb) {
+        metaBarLinear.setBackgroundColor(rgb);
+        titleText.setTextColor(titleTextColor);
+        authorText.setTextColor(bodyTextColor);
+        publisherDateText.setTextColor(bodyTextColor);
+    }
+
+    private void showArticleInfo() {
+        Bundle bundle = getArgumentsBundle();
+        titleText.setText(bundle.getString(ARTICLE_TITLE_KEY));
+        authorText.setText(bundle.getString(ARTICLE_AUTHOR_KEY));
+        publisherDateText.setText(bundle.getString(ARTICLE_PUBLISHER_DATE_KEY));
+        bodyText.setText(Html.fromHtml((bundle.getString(ARTICLE_BODY_KEY))));
+    }
+
     @NonNull
     private Bundle getArgumentsBundle() {
         Bundle bundle = getArguments();
@@ -147,45 +246,8 @@ public class ArticleDetailFragment extends MvpAppCompatFragment implements IArti
         return bundle;
     }
 
-    @Override
-    public void showArticleInfo(int bodyTextColor, int titleTextColor, int rgb) {
-        metaBarLinear.setBackgroundColor(rgb);
-        titleText.setTextColor(titleTextColor);
-        authorText.setTextColor(bodyTextColor);
-        publisherDateText.setTextColor(bodyTextColor);
-
-        progressBar.setVisibility(View.GONE);
-        Bundle bundle = getArgumentsBundle();
-        titleText.setText(bundle.getString(ARTICLE_TITLE_KEY));
-        authorText.setText(bundle.getString(ARTICLE_AUTHOR_KEY));
-        publisherDateText.setText(bundle.getString(ARTICLE_PUBLISHER_DATE_KEY));
-        bodyText.setText(Html.fromHtml((bundle.getString(ARTICLE_BODY_KEY)).replaceAll(
-                getString(R.string.new_string_regex), getString(R.string.new_string_replacment))));
-    }
-
-    @OnClick(R.id.fab_fr_article_detail_share_article)
-    public void shareButtonClick() {
-        presenter.shareButtonClick();
-    }
-
-    @Override
-    public void startShareAction() {
-        onFragmentInteractionListener.shareArticle(getArgumentsBundle().getString(ARTICLE_BODY_KEY));
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        onFragmentInteractionListener = null;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
     public interface OnFragmentInteractionListener {
         void shareArticle(String article);
     }
+
 }

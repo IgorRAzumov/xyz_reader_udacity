@@ -1,9 +1,8 @@
 <resources>
-    <!-- list -->
-    <dimen name="list_side_margin">64dp</dimen>
-    <dimen name="list_toolbar_side_margin">52dp</dimen> <!-- minus 64 - 12 -->
-    <integer name="list_column_count">3</integer>
-
-    <!-- detail -->
-    <dimen name="detail_card_max_width">704dp</dimen>
+    <dimen name="fr_article_detail_cont_horiz_margin">32dp</dimen>
+    <dimen name="lly_fr_article_detail_cont_meta_bar_vert_padding">32dp</dimen>
+    <dimen name="tv_fr_article_detail_cont_title_bottom_padding">20dp</dimen>
+    <dimen name="tv_fr_article_detail_cont_title_text_size">36sp</dimen>
+    <dimen name="tv_fr_article_detail_cont_body_bottom_margin">104dp</dimen>
+    <dimen name="tv_fr_article_detail_cont_body_text_size">26sp</dimen>
 </resources>

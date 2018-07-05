@@ -2,55 +2,51 @@ package com.example.xyzreader.model.repo;
 
 import com.example.xyzreader.NetworkStatus;
 import com.example.xyzreader.model.api.IApiService;
-import com.example.xyzreader.model.cache.ICache;
+import com.example.xyzreader.model.database.IDataBaseService;
 import com.example.xyzreader.model.entity.Article;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
 public class ArticlesRepo {
     private IApiService api;
-    private ICache articlesCache;
+    private IDataBaseService dataBaseService;
+    private final List<Article> articlesList;
 
-    public ArticlesRepo(ICache cache, IApiService api) {
+    public ArticlesRepo(IDataBaseService dataBase, IApiService api, List<Article> articles) {
+        articlesList = articles;
         this.api = api;
-        articlesCache = cache;
+        dataBaseService = dataBase;
     }
 
 
     public Single<List<Article>> getArticles() {
-        if (!articlesCache.isEmpty()) {
-            return articlesCache.getArticlesCache();
+        if (!articlesList.isEmpty()) {
+            return Single.just(articlesList);
         } else if (NetworkStatus.isOnline()) {
-            return api.getArticles()
+            return api
+                    .getArticles()
                     .map(articles -> {
-                        for (Article article : articles) {
-                            String publisherDate = article.getPublishedDate();
-                         //   article.setPublishedDate(formatDate(publisherDate));
-                        }
-                        articlesCache.updateArticlesCache(articles)
+                        dataBaseService
+                                .updateArticlesCache(articles)
                                 .subscribeOn(Schedulers.io())
                                 .subscribe();
-                        return articles;
+                        return updateArticlesList(articles);
                     });
         } else {
-            return articlesCache.getArticles();
+            return dataBaseService
+                    .getArticles()
+                    .map(this::updateArticlesList);
         }
     }
 
-  /*  private String formatDate(String publisherDate) {
-        Date pubDate =
-
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        return simpleDateFormat.format()
-
-
-
-    }*/
+    private List<Article> updateArticlesList(List<Article> articles) {
+        if (!articles.isEmpty()) {
+            articlesList.clear();
+            articlesList.addAll(articles);
+        }
+        return articles;
+    }
 }

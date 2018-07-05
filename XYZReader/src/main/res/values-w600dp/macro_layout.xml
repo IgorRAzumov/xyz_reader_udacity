@@ -1,0 +1,8 @@
+<resources>
+    <dimen name="fr_article_detail_cont_horiz_margin">24dp</dimen>
+    <dimen name="lly_fr_article_detail_cont_meta_bar_vert_padding">24dp</dimen>
+    <dimen name="tv_fr_article_detail_cont_title_bottom_padding">12dp</dimen>
+    <dimen name="tv_fr_article_detail_cont_title_text_size">34sp</dimen>
+    <dimen name="tv_fr_article_detail_cont_body_bottom_margin">96dp</dimen>
+    <dimen name="tv_fr_article_detail_cont_body_text_size">24sp</dimen>
+</resources>

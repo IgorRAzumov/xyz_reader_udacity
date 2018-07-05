@@ -3,9 +3,10 @@ package com.example.xyzreader.view.articleDetailScreen;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ShareCompat;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
@@ -27,12 +28,13 @@ public class ArticleDetailActivity extends MvpAppCompatActivity implements IArti
     ViewPager articlesViewPager;
     @BindView(R.id.pb_act_article_detail_progress)
     ProgressBar progressBar;
+    @BindView(R.id.fl_act_article_detail_root_view)
+    FrameLayout rootView;
 
     @InjectPresenter
     ArticleDetailActivityPresenter presenter;
 
     private int selectedPosition;
-    private ArticlesViewPagerAdapter articleViewPagerAdapter;
 
     @ProvidePresenter
     public ArticleDetailActivityPresenter createPresenter() {
@@ -73,17 +75,23 @@ public class ArticleDetailActivity extends MvpAppCompatActivity implements IArti
     }
 
     private void initViewPager() {
-        articleViewPagerAdapter = new ArticlesViewPagerAdapter(getSupportFragmentManager(), presenter);
-        articlesViewPager.setAdapter(articleViewPagerAdapter);
+        articlesViewPager.setAdapter(
+                new ArticlesViewPagerAdapter(getSupportFragmentManager(), presenter));
         articlesViewPager.addOnPageChangeListener(createViewPagerListener());
         articlesViewPager.setCurrentItem(selectedPosition);
     }
 
     @Override
     public void showErrorLoadDataMessage() {
-
+       progressBar.setVisibility(View.GONE);
+        showMessage(R.string.error_load_articles);
     }
 
+    @Override
+    public void showEmptyDataMessage() {
+        progressBar.setVisibility(View.INVISIBLE);
+        showMessage(R.string.empty_load_articles_result);
+    }
     @NonNull
     private ViewPager.OnPageChangeListener createViewPagerListener() {
         return new ViewPager.OnPageChangeListener() {
@@ -105,14 +113,21 @@ public class ArticleDetailActivity extends MvpAppCompatActivity implements IArti
     }
 
     @Override
-    public void shareArticle(String articleBody) {
+    public void shareArticle(String articleInfo) {
         Intent shareArticleIntent = new Intent();
         shareArticleIntent.setAction(Intent.ACTION_SEND);
-        shareArticleIntent.putExtra(Intent.EXTRA_TEXT, articleBody);
+        shareArticleIntent.putExtra(Intent.EXTRA_TEXT, articleInfo);
         shareArticleIntent.setType(getString(R.string.intent_type_text_plain));
 
         if (shareArticleIntent.resolveActivity(getPackageManager()) != null) {
             startActivity(shareArticleIntent);
         }
+    }
+
+    private void showMessage(int error_load_articles) {
+        Snackbar
+                .make(rootView, getString(error_load_articles), Snackbar.LENGTH_INDEFINITE)
+                .setAction(getString(R.string.retry_load), view -> presenter.retryLoad())
+                .show();
     }
 }

@@ -2,6 +2,8 @@ package com.example.xyzreader.view.adapters.articlesListAdapter;
 
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,8 +62,10 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<ArticlesListAdapte
         TextView articleName;
         @BindView(R.id.tv_articles_list_item_author)
         TextView articleAuthor;
-        @BindView(R.id.dhiv_articles_list_item_thumbnail)
+        @BindView(R.id.iv_articles_list_item_image)
         ImageView articleImage;
+        @BindView(R.id.cl_articles_list_item_thumbnail_root_card_ly)
+        ConstraintLayout rootCardLayout;
 
         ArticleViewHolder(View itemView) {
             super(itemView);
@@ -80,7 +84,12 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<ArticlesListAdapte
 
         @Override
         public void setImage(String thumbUrl, double aspectRatio) {
-            /*articleImage.setAspectRatio(aspectRatio);*/
+            String posterRatio = String.valueOf(1) + ":" + String.valueOf(1.5);
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(rootCardLayout);
+            constraintSet.setDimensionRatio(articleImage.getId(), posterRatio);
+            constraintSet.applyTo(rootCardLayout);
+
             imageLoader.loadInto(thumbUrl, articleImage);
         }
     }

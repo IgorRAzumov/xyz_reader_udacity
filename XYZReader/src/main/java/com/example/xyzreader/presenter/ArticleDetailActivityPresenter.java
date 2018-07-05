@@ -23,6 +23,7 @@ public class ArticleDetailActivityPresenter extends MvpPresenter<IArticleDetailV
     ArticlesRepo articlesRepo;
 
     private List<Article> articlesList;
+
     private Scheduler scheduler;
 
 
@@ -41,13 +42,17 @@ public class ArticleDetailActivityPresenter extends MvpPresenter<IArticleDetailV
         if (articlesList != null) {
             Article article = articlesList.get(pos);
             pageView.setData(article.getTitle(), article.getAuthor(), article.getPublishedDate(),
-                    article.getBody(),article.getPhoto());
+                    article.getBody(), article.getPhoto());
         }
     }
 
     @Override
     public int getArticlesCount() {
         return articlesList == null ? 0 : articlesList.size();
+    }
+
+    public void retryLoad() {
+        loadData();
     }
 
     @SuppressLint("CheckResult")
@@ -57,11 +62,20 @@ public class ArticleDetailActivityPresenter extends MvpPresenter<IArticleDetailV
                 .observeOn(scheduler)
                 .subscribe(articles -> {
                     articlesList = articles;
-                    getViewState().onLoadCompleted();
+                    if (articles.size() == 0) {
+                        getViewState().showEmptyDataMessage();
+                    } else {
+                        getViewState().onLoadCompleted();
+                    }
                 }, throwable -> {
                     getViewState().showErrorLoadDataMessage();
                 });
     }
-
-
+    /*
+    * DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyy", Locale.ENGLISH);
+LocalDate date = LocalDate.parse("2018-04-10T04:00:00.000Z", inputFormatter);
+String formattedDate = outputFormatter.format(date);
+    *
+    * */
 }

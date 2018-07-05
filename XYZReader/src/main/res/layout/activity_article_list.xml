@@ -14,16 +14,24 @@
             android:id="@+id/ctl__act_articles_list_collapsing_toolbar_lly"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
-            app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
+                android:id="@+id/iv__act_articles_list_logo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/logo"
-                android:layout_gravity="bottom"/>
+                android:fitsSystemWindows="true"
+                app:srcCompat="@drawable/logo" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/tb_act_articles_list_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:fitsSystemWindows="false"
+                app:contentInsetStartWithNavigation="0dp"
+                app:layout_collapseMode="pin" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
@@ -41,11 +49,3 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 </android.support.design.widget.CoordinatorLayout>
-
-<!--
-
-<android.support.v7.widget.Toolbar
-android:id="@+id/tb_act_articles_list_toolbar"
-android:layout_width="match_parent"
-android:layout_height="?actionBarSize"
-app:layout_scrollFlags="scroll|exitUntilCollapsed" />-->
