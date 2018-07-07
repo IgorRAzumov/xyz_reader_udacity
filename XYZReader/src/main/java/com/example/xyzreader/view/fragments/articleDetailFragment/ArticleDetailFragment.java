@@ -1,6 +1,7 @@
 package com.example.xyzreader.view.fragments.articleDetailFragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -163,22 +164,16 @@ public class ArticleDetailFragment extends MvpAppCompatFragment implements IArti
         final int noColor = getResources().getInteger(R.integer.fr_article_detail_no_detected_color);
         imageLoader.loadIntoWithResult(getArgumentsBundle().getString(ARTICLE_IMAGE_URL), articleImage)
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe((Bitmap bitmap) -> {
-                    Palette.from(bitmap).generate(palette -> {
-                        Palette.Swatch swatch = palette.getDarkMutedSwatch();
-                        if (swatch != null) {
-                            presenter.completeCreateColors(swatch.getBodyTextColor(),
-                                    swatch.getTitleTextColor(), swatch.getRgb());
-                        } else {
-                            presenter.completeCreateColors(noColor, noColor, noColor);
-                        }
+                .subscribe((Bitmap bitmap) -> Palette.from(bitmap).generate(palette -> {
+                    Palette.Swatch swatch = palette.getDarkMutedSwatch();
+                    if (swatch != null) {
+                        presenter.completeCreateColors(swatch.getBodyTextColor(),
+                                swatch.getTitleTextColor(), swatch.getRgb());
+                    } else {
+                        presenter.completeCreateColors(noColor, noColor, noColor);
+                    }
 
-                    });
-                }, throwable -> {
-                    presenter.completeCreateColors(noColor, noColor, noColor);
-                }, () -> {
-                    presenter.completeCreateColors(noColor, noColor, noColor);
-                });
+                }), throwable -> presenter.completeCreateColors(noColor, noColor, noColor), () -> presenter.completeCreateColors(noColor, noColor, noColor));
     }
 
     private void initToolbar() {
@@ -215,10 +210,13 @@ public class ArticleDetailFragment extends MvpAppCompatFragment implements IArti
     }
 
     private void initShareButton() {
-        shareButton.setOnClickListener(view ->{
-            ((ArticleDetailActivity)getActivity()).showErrorLoadDataMessage();
+        shareButton.setOnClickListener(view -> {
+            Activity activity = getActivity();
+            if (activity != null) {
+                ((ArticleDetailActivity) getActivity()).showErrorLoadDataMessage();
                 presenter.shareButtonClick(authorText.getText().toString(),
                         titleText.getText().toString(), getString(R.string.share_pre_string));
+            }
         });
     }
 

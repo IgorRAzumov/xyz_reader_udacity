@@ -23,9 +23,7 @@ public class ArticleDetailActivityPresenter extends MvpPresenter<IArticleDetailV
     ArticlesRepo articlesRepo;
 
     private List<Article> articlesList;
-
     private Scheduler scheduler;
-
 
     public ArticleDetailActivityPresenter(Scheduler scheduler) {
         this.scheduler = scheduler;
@@ -34,6 +32,7 @@ public class ArticleDetailActivityPresenter extends MvpPresenter<IArticleDetailV
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
+        getViewState().init();
         loadData();
     }
 
@@ -51,12 +50,8 @@ public class ArticleDetailActivityPresenter extends MvpPresenter<IArticleDetailV
         return articlesList == null ? 0 : articlesList.size();
     }
 
-    public void retryLoad() {
-        loadData();
-    }
-
     @SuppressLint("CheckResult")
-    private void loadData() {
+    public void loadData() {
         articlesRepo.getArticles()
                 .subscribeOn(Schedulers.io())
                 .observeOn(scheduler)
@@ -67,9 +62,7 @@ public class ArticleDetailActivityPresenter extends MvpPresenter<IArticleDetailV
                     } else {
                         getViewState().onLoadCompleted();
                     }
-                }, throwable -> {
-                    getViewState().showErrorLoadDataMessage();
-                });
+                }, throwable -> getViewState().showErrorLoadDataMessage());
     }
     /*
     * DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);

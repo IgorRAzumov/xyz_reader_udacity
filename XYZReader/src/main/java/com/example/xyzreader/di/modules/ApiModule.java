@@ -1,7 +1,6 @@
 package com.example.xyzreader.di.modules;
 
 import com.example.xyzreader.model.api.IApiService;
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

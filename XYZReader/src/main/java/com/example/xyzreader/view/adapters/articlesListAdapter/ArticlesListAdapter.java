@@ -52,9 +52,7 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<ArticlesListAdapte
     }
 
     private View.OnClickListener createItemOnClickListener() {
-        return view -> {
-            presenter.onArticleClick((int) view.getTag());
-        };
+        return view -> presenter.onArticleClick((int) view.getTag());
     }
 
     class ArticleViewHolder extends RecyclerView.ViewHolder implements IArticleRowView {

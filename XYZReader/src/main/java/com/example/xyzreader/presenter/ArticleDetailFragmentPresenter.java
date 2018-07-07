@@ -2,8 +2,6 @@ package com.example.xyzreader.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
-import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.example.xyzreader.view.fragments.articleDetailFragment.IArticleDetailFragment;
 
 @InjectViewState

@@ -3,7 +3,6 @@ package com.example.xyzreader;
 import android.app.Application;
 
 import com.example.xyzreader.di.AppComponent;
-import com.example.xyzreader.di.DaggerAppComponent;
 import com.example.xyzreader.di.modules.AppModule;
 
 import io.realm.Realm;

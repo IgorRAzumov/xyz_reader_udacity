@@ -21,7 +21,7 @@
     <string name="fr_article_detail_no_detected_color">-1</string><string name="fr_article_detail_body_text_rep">x</string><string name="fr_article_detail_body_regex">x</string>
 
     <string name="intent_type_text_plain">text/plain</string>
-    <string name="share_pre_string">Hello!) Look, it intresting:</string>
+    <string name="share_pre_string">Hello!) Look, it interesting:</string>
 
     <string name="error_fr_article_detail_call_set_data">before called onCreateView(…) must called setData(String title, String author, String publishedDate, String body</string>
     <string name="error_load_articles">Error load articles. Try again.</string>

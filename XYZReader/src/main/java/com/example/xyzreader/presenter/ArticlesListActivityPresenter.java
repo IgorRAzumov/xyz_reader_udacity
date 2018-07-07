@@ -72,8 +72,6 @@ public class ArticlesListActivityPresenter extends MvpPresenter<IArticlesListVie
                     } else {
                         getViewState().onLoadCompeted();
                     }
-                }, throwable -> {
-                    getViewState().showErrorLoadMessage();
-                });
+                }, throwable -> getViewState().showErrorLoadMessage());
     }
 }

@@ -9,7 +9,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -94,9 +93,9 @@ public class ArticlesListActivity extends MvpAppCompatActivity
         startActivity(intent);
     }
 
-    private void showMessage(int empty_load_articles_resulr) {
+    private void showMessage(int empty_load_articles_result) {
         Snackbar
-                .make(articlesRecycler, getString(empty_load_articles_resulr), Snackbar.LENGTH_INDEFINITE)
+                .make(articlesRecycler, getString(empty_load_articles_result), Snackbar.LENGTH_INDEFINITE)
                 .setAction(getString(R.string.retry_load), view -> presenter.retryLoad())
                 .show();
     }

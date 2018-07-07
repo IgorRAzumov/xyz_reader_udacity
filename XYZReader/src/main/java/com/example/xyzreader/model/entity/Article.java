@@ -3,9 +3,6 @@ package com.example.xyzreader.model.entity;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
-import java.util.Objects;
-
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -35,6 +32,21 @@ public class Article extends RealmObject{
     @SerializedName("published_date")
     @Expose
     private String publishedDate;
+
+    public Article() {
+    }
+
+    public Article(Integer id, String title, String author, String body, String thumb, String photo,
+                   Double aspectRatio, String publishedDate) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.body = body;
+        this.thumb = thumb;
+        this.photo = photo;
+        this.aspectRatio = aspectRatio;
+        this.publishedDate = publishedDate;
+    }
 
     public Integer getId() {
         return id;

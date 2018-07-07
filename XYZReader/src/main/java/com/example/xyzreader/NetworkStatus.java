@@ -21,8 +21,11 @@ public class NetworkStatus {
                 Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
     }
 
-    public static Status getStatus() {
+    private static Status getStatus() {
         ConnectivityManager cm = (ConnectivityManager) App.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) {
+            return currentStatus;
+        }
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (null != activeNetwork) {
             if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {

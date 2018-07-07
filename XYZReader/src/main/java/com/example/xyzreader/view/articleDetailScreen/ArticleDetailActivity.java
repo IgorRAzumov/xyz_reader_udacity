@@ -127,7 +127,7 @@ public class ArticleDetailActivity extends MvpAppCompatActivity implements IArti
     private void showMessage(int error_load_articles) {
         Snackbar
                 .make(rootView, getString(error_load_articles), Snackbar.LENGTH_INDEFINITE)
-                .setAction(getString(R.string.retry_load), view -> presenter.retryLoad())
+                .setAction(getString(R.string.retry_load), view -> presenter.loadData())
                 .show();
     }
 }

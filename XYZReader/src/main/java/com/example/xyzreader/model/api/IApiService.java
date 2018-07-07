@@ -4,7 +4,6 @@ import com.example.xyzreader.model.entity.Article;
 
 import java.util.List;
 
-import io.reactivex.Observable;
 import io.reactivex.Single;
 import retrofit2.http.GET;
 
