@@ -6,9 +6,11 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -38,6 +40,8 @@ public class ArticlesListActivity extends MvpAppCompatActivity
     RecyclerView articlesRecycler;
     @BindView(R.id.pb_act_articles_list_progress)
     ProgressBar progressBar;
+    @BindView(R.id.tb_act_articles_list_toolbar)
+    Toolbar toolbar;
 
     @InjectPresenter
     ArticlesListActivityPresenter presenter;
@@ -64,24 +68,37 @@ public class ArticlesListActivity extends MvpAppCompatActivity
 
     @Override
     public void init() {
-        progressBar.setVisibility(View.VISIBLE);
+        showLoading(View.VISIBLE);
+        initToolbar();
+    }
+
+    private void showLoading(int visible) {
+        progressBar.setVisibility(visible);
+    }
+
+    private void initToolbar() {
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(getString(R.string.empty_string));
+        }
     }
 
     @Override
     public void onLoadCompeted() {
-        progressBar.setVisibility(View.INVISIBLE);
+        showLoading(View.INVISIBLE);
         initArticlesRecycler();
     }
 
     @Override
     public void showErrorLoadMessage() {
-        progressBar.setVisibility(View.INVISIBLE);
+        showLoading(View.INVISIBLE);
         showMessage(R.string.error_load_articles);
     }
 
     @Override
     public void showEmptyDataMessage() {
-        progressBar.setVisibility(View.INVISIBLE);
+        showLoading(View.INVISIBLE);
         showMessage(R.string.empty_load_articles_result);
     }
 

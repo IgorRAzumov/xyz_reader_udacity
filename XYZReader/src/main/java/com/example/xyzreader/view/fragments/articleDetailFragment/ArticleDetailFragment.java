@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,7 +67,7 @@ public class ArticleDetailFragment extends MvpAppCompatFragment implements IArti
     @BindView(R.id.ctl_fr_article_detail_collapsing_tb_lly)
     CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.tb_fr_article_detail_toolbar)
-    android.support.v7.widget.Toolbar toolbar;
+    Toolbar toolbar;
     @BindView(R.id.abl_fr_article_detail_app_bar)
     AppBarLayout appBarLayout;
 
@@ -128,13 +129,17 @@ public class ArticleDetailFragment extends MvpAppCompatFragment implements IArti
 
     @Override
     public void init() {
-        progressBar.setVisibility(View.VISIBLE);
+        showLoading(View.VISIBLE);
         loadArticleImage();
+    }
+
+    private void showLoading(int visible) {
+        progressBar.setVisibility(visible);
     }
 
     @Override
     public void onLoadCompleted(int bodyTextColor, int titleTextColor, int rgb) {
-        progressBar.setVisibility(View.GONE);
+        showLoading(View.GONE);
         initToolbar();
         initAppBarLayout();
         initShareButton();

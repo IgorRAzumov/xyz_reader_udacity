@@ -1,3 +1,13 @@
 <resources>
     <dimen name="ctl_act_articles_list_height">120dp</dimen>
+    <dimen name="abl_fr_article_detail_app_bar_height">256dp</dimen>
+    <dimen name="fab_fr_article_detail_share_article_margin">16dp</dimen>
+    <dimen name="iv_articles_list_item_image_width">60dp</dimen>
+    <dimen name="iv_articles_list_item_image_marg_bott">8dp</dimen>
+    <dimen name="iv_articles_list_item_image_marge_start">8dp</dimen>
+    <dimen name="iv_articles_list_item_image_marg_top">8dp</dimen>
+    <dimen name="tv_articles_list_item_title_marg_start">8dp</dimen>
+    <dimen name="tv_articles_list_item_title_marg_top">16dp</dimen>
+    <dimen name="tv_articles_list_item_author_marg_start">8dp</dimen>
+    <dimen name="tv_articles_list_item_author_marg_top">16dp</dimen>
 </resources>

@@ -82,12 +82,11 @@ public class ArticlesListAdapter extends RecyclerView.Adapter<ArticlesListAdapte
 
         @Override
         public void setImage(String thumbUrl, double aspectRatio) {
-            String posterRatio = String.valueOf(1) + ":" + String.valueOf(1.5);
+            String posterRatio = String.valueOf(1) + ":" + String.valueOf(aspectRatio);
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(rootCardLayout);
             constraintSet.setDimensionRatio(articleImage.getId(), posterRatio);
             constraintSet.applyTo(rootCardLayout);
-
             imageLoader.loadInto(thumbUrl, articleImage);
         }
     }

@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/lly_fr_article_detail_cont_meta_bar_vert_padding"
-            android:background="#333"
+            android:background="@color/lly_fr_article_detail_cont_meta_bar_backg"
             android:orientation="vertical"
             android:paddingBottom="@dimen/lly_fr_article_detail_cont_meta_bar_vert_padding"
             android:paddingLeft="@dimen/fr_article_detail_cont_horiz_margin"

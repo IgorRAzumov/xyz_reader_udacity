@@ -22,4 +22,11 @@
     <color name="theme_primary_dark">#04561A</color>
     <color name="theme_accent">#04561A</color>
     <color name="ltgray">#ffe0e0e0</color>
+
+
+    <color name="primary">#673AB7</color>
+    <color name="primary_dark">#512DA8</color>
+    <color name="accent">#FF4081</color>
+    <color name="accent_translucent">#80FFEB3B</color>
+    <color name="lly_fr_article_detail_cont_meta_bar_backg">#333</color>
 </resources>

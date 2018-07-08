@@ -28,5 +28,10 @@
     <string name="empty_load_articles_result">No enabled articles. Try again.</string>
     <string name="retry_load">RETRY</string>
     <string name="empty_string" />
+    <string name="iv_fr_article_detail_ctl_image_desc">Article description.</string>
+
+
+
+    <string name="fab_fr_article_detail_behavior">com.example.xyzreader.view.widgets.FabScrollBehavior</string>
 
 </resources>

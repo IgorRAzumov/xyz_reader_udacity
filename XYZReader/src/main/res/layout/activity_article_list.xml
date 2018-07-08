@@ -8,7 +8,7 @@
         android:id="@+id/abl_act_articles_list_app_bar_lly"
         android:layout_width="match_parent"
         android:layout_height="@dimen/ctl_act_articles_list_height"
-        android:background="?colorPrimary">
+        android:background="@color/primary">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/ctl__act_articles_list_collapsing_toolbar_lly"
@@ -21,18 +21,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:contentDescription="@string/app_name"
-                android:fitsSystemWindows="true"
-                app:srcCompat="@drawable/logo" />
+                android:contentDescription="@string/logo"
+                app:srcCompat="@drawable/logo"
+                app:layout_collapseMode="parallax"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/tb_act_articles_list_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:fitsSystemWindows="false"
-                app:contentInsetStartWithNavigation="0dp"
+                android:layout_height="?android:attr/actionBarSize"
                 app:layout_collapseMode="pin" />
-
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 

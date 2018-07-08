@@ -14,7 +14,6 @@ public class ArticleDetailFragmentPresenter extends MvpPresenter<IArticleDetailF
         getViewState().init();
     }
 
-
     public void completeCreateColors(int bodyTextColor, int titleTextColor, int rgb) {
         getViewState().onLoadCompleted(bodyTextColor, titleTextColor, rgb);
     }
