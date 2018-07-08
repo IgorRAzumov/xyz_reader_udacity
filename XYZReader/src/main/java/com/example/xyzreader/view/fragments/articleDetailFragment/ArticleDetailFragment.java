@@ -210,6 +210,7 @@ public class ArticleDetailFragment extends MvpAppCompatFragment implements IArti
     }
 
     private void initShareButton() {
+        shareButton.setVisibility(View.VISIBLE);
         shareButton.setOnClickListener(view -> {
             Activity activity = getActivity();
             if (activity != null) {

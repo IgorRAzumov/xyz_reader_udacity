@@ -59,7 +59,8 @@
         android:layout_margin="16dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_share_article"
+        android:src="@mipmap/ic_share_article"
+        android:visibility="gone"
         app:fabSize="auto"
         app:pressedTranslationZ="12dp"
         app:useCompatPadding="true" />
