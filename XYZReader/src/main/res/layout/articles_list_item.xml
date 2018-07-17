@@ -24,8 +24,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/tv_articles_list_item_title_marg_start"
+        android:layout_marginEnd="@dimen/tv_articles_list_item_title_marg_end"
         android:layout_marginTop="@dimen/tv_articles_list_item_title_marg_top"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+        android:maxLines="3"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintStart_toEndOf="@+id/iv_articles_list_item_image"
         app:layout_constraintTop_toTopOf="@+id/iv_articles_list_item_image" />
 

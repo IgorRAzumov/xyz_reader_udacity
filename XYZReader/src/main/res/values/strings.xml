@@ -33,5 +33,6 @@
 
 
     <string name="fab_fr_article_detail_behavior">com.example.xyzreader.view.widgets.FabScrollBehavior</string>
+    <string name="roboto_regular">Roboto-Regular.ttf</string>
 
 </resources>

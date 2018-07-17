@@ -31,7 +31,8 @@ public class ApiModule {
     }
 
     @Provides
-    public Retrofit retrofit(@Named("baseUrl") String baseUrl, OkHttpClient client,
+    public Retrofit retrofit(@Named("baseUrl") String baseUrl,
+                             @Named("interceptOkHttpClient") OkHttpClient client,
                              GsonConverterFactory gsonConverterFactory,
                              RxJava2CallAdapterFactory rxJava2CallAdapterFactory) {
         return new Retrofit.Builder()
@@ -42,19 +43,17 @@ public class ApiModule {
                 .build();
     }
 
-   /* @Provides
+    @Named("defaultOkHttpClient")
+    @Provides
     public OkHttpClient okHttpClient() {
         return new OkHttpClient();
-    }*/
-
-    @Provides
-    public GsonConverterFactory gsonConverterFactory(Gson gson) {
-        return GsonConverterFactory.create(gson);
     }
-
+    @Named("interceptOkHttpClient")
     @Provides
-    public RxJava2CallAdapterFactory rxJava2CallAdapterFactory() {
-        return RxJava2CallAdapterFactory.create();
+    public OkHttpClient okHttpClientIntercept(HttpLoggingInterceptor loggingInterceptor) {
+        return new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build();
     }
 
     @Provides
@@ -64,11 +63,15 @@ public class ApiModule {
         return interceptor;
     }
 
+
     @Provides
-    public OkHttpClient okHttpClient(HttpLoggingInterceptor loggingInterceptor) {
-        return new OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
-                .build();
+    public GsonConverterFactory gsonConverterFactory(Gson gson) {
+        return GsonConverterFactory.create(gson);
+    }
+
+    @Provides
+    public RxJava2CallAdapterFactory rxJava2CallAdapterFactory() {
+        return RxJava2CallAdapterFactory.create();
     }
 
     @Provides

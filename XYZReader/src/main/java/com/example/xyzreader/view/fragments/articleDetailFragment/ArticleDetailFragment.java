@@ -1,9 +1,9 @@
 package com.example.xyzreader.view.fragments.articleDetailFragment;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -29,7 +29,6 @@ import com.example.xyzreader.R;
 import com.example.xyzreader.model.image.IImageLoader;
 import com.example.xyzreader.presenter.ArticleDetailFragmentPresenter;
 import com.example.xyzreader.view.adapters.articlesPagerAdapter.IArticlePageView;
-import com.example.xyzreader.view.articleDetailScreen.ArticleDetailActivity;
 
 import javax.inject.Inject;
 
@@ -131,6 +130,8 @@ public class ArticleDetailFragment extends MvpAppCompatFragment implements IArti
     public void init() {
         showLoading(View.VISIBLE);
         loadArticleImage();
+        bodyText.setTypeface(Typeface.createFromAsset(getResources().getAssets(),
+                getString(R.string.roboto_regular)));
     }
 
     private void showLoading(int visible) {
@@ -216,14 +217,8 @@ public class ArticleDetailFragment extends MvpAppCompatFragment implements IArti
 
     private void initShareButton() {
         shareButton.setVisibility(View.VISIBLE);
-        shareButton.setOnClickListener(view -> {
-            Activity activity = getActivity();
-            if (activity != null) {
-                ((ArticleDetailActivity) getActivity()).showErrorLoadDataMessage();
-                presenter.shareButtonClick(authorText.getText().toString(),
-                        titleText.getText().toString(), getString(R.string.share_pre_string));
-            }
-        });
+        shareButton.setOnClickListener(view -> presenter.shareButtonClick(authorText.getText().toString(),
+                titleText.getText().toString(), getString(R.string.share_pre_string)));
     }
 
     private void setColors(int bodyTextColor, int titleTextColor, int rgb) {

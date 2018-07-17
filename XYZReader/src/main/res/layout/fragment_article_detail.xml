@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Small"
-            app:contentScrim="@color/primary"
+            app:contentScrim="@color/primary_dark"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -27,12 +27,13 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/iv_fr_article_detail_ctl_image_desc"
                 android:fitsSystemWindows="true"
-                app:layout_collapseMode="parallax" />
+                app:layout_collapseMode="parallax"
+                android:background="@color/primary_dark"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/tb_fr_article_detail_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
                 app:contentInsetStartWithNavigation="0dp"
                 app:layout_collapseMode="pin" />
         </android.support.design.widget.CollapsingToolbarLayout>

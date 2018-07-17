@@ -56,7 +56,6 @@
             android:layout_marginRight="@dimen/fr_article_detail_cont_horiz_margin"
             android:paddingBottom="@dimen/tv_fr_article_detail_cont_body_bottom_margin"
             android:lineSpacingMultiplier="@fraction/tv_fr_article_detail_cont_body_line_spacing_multiplier"
-            android:textColorLink="@color/theme_accent"
             android:textSize="@dimen/tv_fr_article_detail_cont_body_text_size" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
